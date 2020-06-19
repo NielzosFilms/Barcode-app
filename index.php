@@ -11,6 +11,10 @@ $passwd = "";
 $pdo = new PDO($dsn, $user, $passwd);
 ?>
 
+<head>
+    <script src="js/videosub.js"></script>
+</head>
+
 <table>
     <?php
         $exercises=$pdo->query("SELECT * FROM parcel");
@@ -29,8 +33,9 @@ $pdo = new PDO($dsn, $user, $passwd);
     ?>
 </table>
 
-<video width="640" height="480" controls>
-    <source src="videos\test_srt_1.mp4" type="video/mp4" />
+<video id="vid1" width="640" height="480" controls="controls">
+    <source src="videos/test_srt.mp4" type="video/mp4" />
+    <track src="videos/test_srt.srt" kind="subtitle" srclang="en-US" label="English" default />
     Your browser does not support the video tag.
 </video>
 <br>
@@ -47,7 +52,10 @@ if (!empty($_GET["alibiID"])) {
 
         echo "BlockIndex: ".$sub->getLine($key-2)."<br>";
         echo "StartTime: ".$startTime."<br>";
-        echo "EndTime: ".$endTime;
+        echo "EndTime: ".$endTime."<br>";
+        $timeSec = $sub->getTimeInSec($startTime);
+        echo "$timeSec<br>"; ?>
+<?php
     } else {
         echo "AlibiID: ".$_GET["alibiID"]." Not found.";
     }

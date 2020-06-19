@@ -46,4 +46,20 @@ class Subtitle
     {
         return $this->subtitles[$index];
     }
+
+    public function getTimeInSec($time)
+    {
+        $arr = explode(":", $time);
+        $hours = $arr[0];
+        $min = $arr[1];
+        $sec = explode(".", $arr[2]);
+
+        $final = 0;
+
+        $final += $hours*60*60;
+        $final += $min*60;
+        $final += $sec[0];
+
+        return $final;
+    }
 }

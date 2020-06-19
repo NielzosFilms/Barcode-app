@@ -41,4 +41,9 @@ class Subtitle
         $times = explode(" --> ", $time_line);
         return $times[1];
     }
+
+    public function getLine($index)
+    {
+        return $this->subtitles[$index];
+    }
 }

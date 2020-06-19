@@ -18,7 +18,8 @@ $pdo = new PDO($dsn, $user, $passwd);
             ?>
     <tr>
         <td><?= $row["Pic"]?></td>
-        <td><?= $row["AlibiID"]?></td>
+
+        <td><a href="index.php?alibiID=<?= $row["AlibiID"]?>"><?= $row["AlibiID"]?></a></td>
         <td><?= $row["ParcelData1"]?></td>
         <td><?= $row["ParcelData2"]?></td>
         <td><?= $row["ParcelData3"]?></td>
@@ -28,18 +29,27 @@ $pdo = new PDO($dsn, $user, $passwd);
     ?>
 </table>
 
+<video width="640" height="480" controls>
+    <source src="videos\test_srt_1.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
+<br>
+
 <?php
-/**
- * 00120200615153135100061
- * test id code
- */
-$id = "00120200615153135100061";
 
 $sub = new Subtitle("videos/test_srt.srt");
-$key = $sub->searchSubtitles($id);
-$startTime = $sub->getStartTime($key-1);
-$endTime = $sub->getEndTime($key-1);
-echo $startTime."<br>";
-echo $endTime;
 
+if (!empty($_GET["alibiID"])) {
+    $key = $sub->searchSubtitles($_GET["alibiID"]);
+    if ($key != null) {
+        $startTime = $sub->getStartTime($key-1);
+        $endTime = $sub->getEndTime($key-1);
+
+        echo "BlockIndex: ".$sub->getLine($key-2)."<br>";
+        echo "StartTime: ".$startTime."<br>";
+        echo "EndTime: ".$endTime;
+    } else {
+        echo "AlibiID: ".$_GET["alibiID"]." Not found.";
+    }
+}
 ?>
